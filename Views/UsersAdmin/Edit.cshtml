@@ -1,0 +1,71 @@
+﻿@model BabyStore.ViewModel.EditUserViewModel
+
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+<h2>
+    @ViewData["Title"]</h2>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group row">
+                <label asp-for="Email" class="control-label col-md-3"></label>
+                <div class="col-md-9">
+                    <input asp-for="Email" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="FirstName" class="control-label col-md-3"></label>
+                <div class="col-md-9">
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="LastName" class="control-label col-md-3"></label>
+                <div class="col-md-9">
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="DateOfBirth" class="control-label col-md-3"></label>
+                <div class="col-md-9">
+                    <input asp-for="DateOfBirth" class="form-control" />
+                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                </div>
+            </div>
+            @Html.EditorFor(model => model.Address)
+
+            <div class="form-group row">
+                <label class="col-md-3 control-label">
+                    Select User Role
+                </label>
+                <div class="col-md-9">
+                    @foreach (var item in Model.RolesList)
+                    {
+                        <input type="checkbox" name="SelectedRole" value="@item.Value" checked="@item.Selected" class="checkbox-inline" />
+                        @Html.LabelFor(model=>model.RolesList,item.Value, htmlAttributes: new { @class = "control-label" })
+                        <span asp-validation-for="RolesList" class="text-danger"></span>
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

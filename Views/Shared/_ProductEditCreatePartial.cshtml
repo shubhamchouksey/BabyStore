@@ -1,0 +1,33 @@
+﻿@model BabyStore.ViewModel.ProductViewModel
+
+<div class="form-group">
+    <label asp-for="Name" class="control-label"></label>
+    <input asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span>      <!--The <span> tag provides a way to add a hook to a part of a text or a part of a document-->
+</div>
+<div class="form-group">
+    <label asp-for="Description" class="control-label"></label>
+    <input asp-for="Description" class="form-control" />
+    <span asp-validation-for="Description" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Price" class="control-label"></label>
+    <input asp-for="Price" class="form-control" />
+    <span asp-validation-for="Price" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="CategoryID" class="control-label"></label>
+    @Html.DropDownListFor(vm => vm.CategoryID, Model.CategoryList, htmlAttributes: new { @class = "form-control" })
+    @*<select asp-for="CategoryID" class="form-control" asp-items="Model.CategoryList"></select>*@
+    <span asp-validation-for="CategoryID" class="text-danger"></span>
+</div>
+@for (int i = 0; i < Model.ImageLists.Count; i++)
+{
+    <div class="form-group">
+        <label class="control-label">Product Image @(i + 1):</label>
+        @Html.DropDownListFor(vm => vm.ProductImages, Model.ImageLists[i], "Choose Image", htmlAttributes: new { @class = "form-control" })
+        @*<select asp-for="ImageLists" class="form-control" asp-items="Model.ImageLists[i]" > </select>*@
+        <span asp-validation-for="ImageLists" class="text-danger"></span>
+    </div>
+}
+

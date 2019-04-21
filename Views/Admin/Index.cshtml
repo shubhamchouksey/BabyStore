@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewData["Title"] = "Admin";
+}
+
+<h2>@ViewData["Title"]</h2>
+<div class="container">
+    <div class="row">
+        <a class="nav-link" asp-area="" asp-controller="ProductImages" asp-action="Index">Manage Images</a>
+    </div>
+    <div class="row">
+        <a class="nav-link" asp-area="" asp-controller="RolesAdmin" asp-action="Index">Manage Roles</a>
+    </div>
+    <div class="row">
+        <a class="nav-link" asp-area="" asp-controller="UsersAdmin" asp-action="Index">Manage Users</a>
+    </div>
+</div>

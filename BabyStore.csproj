@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <StartupObject></StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20190318031505_ProductImages.cs" />
+    <Compile Remove="Migrations\20190318031505_ProductImages.Designer.cs" />
+    <Compile Remove="Migrations\20190402125749_AddressCreateIdentitySchema.cs" />
+    <Compile Remove="Migrations\20190402125749_AddressCreateIdentitySchema.Designer.cs" />
+    <Compile Remove="Migrations\20190402133155_AddressCreateIdentitySchema1.cs" />
+    <Compile Remove="Migrations\20190402133155_AddressCreateIdentitySchema1.Designer.cs" />
+    <Compile Remove="Migrations\20190407064919_p2.cs" />
+    <Compile Remove="Migrations\20190407064919_p2.Designer.cs" />
+    <Compile Remove="Migrations\20190407065103_p2.cs" />
+    <Compile Remove="Migrations\20190407065103_p2.Designer.cs" />
+    <Compile Remove="Migrations\20190409014748_AddBasketLines.cs" />
+    <Compile Remove="Migrations\20190409014748_AddBasketLines.Designer.cs" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0006" />
+    <PackageReference Include="X.PagedList" Version="7.6.0" />
+    <PackageReference Include="X.PagedList.Mvc.core" Version="7.6.0" />
+  </ItemGroup>
+
+</Project>

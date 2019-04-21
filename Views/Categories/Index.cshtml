@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BabyStore.Data;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@model IEnumerable<BabyStore.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+@if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+{
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Index" asp-controller="Products" asp-route-category="@item.Name">@item.Name</a>
+                </td>
+                <td>
+                    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> @Html.Raw("|")
+                        <a asp-action = "Details" asp-route-id = "@item.ID"> Details </a> @Html.Raw("|")
+                        <a asp-action = "Delete" asp-route-id = "@item.ID"> Delete </a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

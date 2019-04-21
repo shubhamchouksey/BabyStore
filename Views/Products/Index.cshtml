@@ -1,0 +1,111 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BabyStore.Data;
+@using X.PagedList.Mvc.Core
+@using X.PagedList
+@using X.PagedList.Mvc.Common
+@model BabyStore.ViewModel.ProductIndexViewModel
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+    @{
+        ViewData["Title"] = "Index";
+    }
+
+    <h1>Index</h1>
+
+    <p>
+        @(String.IsNullOrWhiteSpace(Model.Search) ? "Showing all" : "You Search for" + Model.Search + "found")
+        @Model.Products.TotalItemCount products
+    </p>
+
+    <p>
+        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+        {
+            <a asp-action="Create">Create New</a>
+        }
+        <!--As you can see, this form is assigned the POSTmethod, which as far as I can tell is contrary to the use of FormMethod.Get in the FormMethod argument of Html.BeginForm-->
+        @using (Html.BeginRouteForm("ProductsIndex", FormMethod.Get))
+        {
+            <label>Filter by category:</label>
+            @Html.DropDownListFor(vm => vm.Category, Model.CatFilterItems, "All")
+            <label>Sort by:</label>
+            @Html.DropDownListFor(vm => vm.SortBy, new SelectList(Model.Sorts, "Value", "Key"), "Default")
+            <!-- This new select control uses the SortBy property from the view model as its name.(means value selected would be stored in Category property)
+                It populates itself with the data from the view model’s Sorts property using the second entry in each line of the dictionary
+                as the value submitted by the control (specified by "Value" )
+                and the first entry in each line as the text displayed to the user (specified by "Key" ) -->
+            <input type="submit"    value="Filter" />
+            <input type="hidden" name="Search" id="Search" value="@Model.Search" />
+        }
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Category)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Products.First().Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Products.First().Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Products.First().Price)
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Products)
+            {
+                <tr>
+                    <td>
+                        @if (item.ProductImageMappings != null && item.ProductImageMappings.Any())
+                        {
+                            <a href="@Url.Action("Details", new { id = item.ID })">
+                                <img src="@(Url.Content(Constants.StaticProductImagePath) +
+item.ProductImageMappings.OrderBy(pim => pim.ImageNumber).ElementAt(0).ProductImage.FileName)">
+                            </a>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> @Html.Raw("|")
+                            <a asp-action="Details" asp-route-id="@item.ID"> Details </a> @Html.Raw("|")
+                            <a asp-action="Delete" asp-route-id="@item.ID"> Delete </a>
+                        }
+
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div>
+        Page @(Model.Products.PageCount < Model.Products.PageNumber ? 0 : Model.Products.PageNumber) of @Model.Products.PageCount
+        @Html.PagedListPager((IPagedList)Model.Products, pageNumber => Url.Action("Index", new { Category = Model.Category, SortBy = Model.SortBy, Search = Model.Search, pageNumber }), new PagedListRenderOptions {
+       DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+       DisplayLinkToLastPage = PagedListDisplayMode.Never,
+       LiElementClasses = new string[] { "page-item" },
+       PageClasses = new string[] { "page-link" },
+       LinkToPreviousPageFormat = "<<",
+       LinkToNextPageFormat = ">>"
+   })
+    </div>
+

@@ -1,0 +1,11 @@
+﻿@using System.Web;
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
+@model BabyStore.ViewModel.BasketSummaryViewModel
+
+<ul class="nav navbar-nav navbar-right">
+    <li>
+        @Html.ActionLink("Your basket: " + Model.NumberOfItems + " items(s) " +
+        Model.TotalCost.ToString("c"),
+        "Index", "Basket")
+    </li>
+</ul>

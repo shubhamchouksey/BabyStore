@@ -1,0 +1,85 @@
+﻿@model BabyStore.Models.Product
+<!--you can specify the type of object that the view expects-->
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Product</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Category.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Category.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        @if (Model.ProductImageMappings != null && Model.ProductImageMappings.Any())
+        {
+            <dt></dt>
+            <dd class="col-sm-12">
+                @{
+                    var productImageMappings = (List<ProductImageMapping>)ViewData["P"]; // Cast the list
+                }
+                <img src="@(Url.Content(Constants.StaticProductImagePath) +
+                            productImageMappings.OrderBy(o=>o.ImageNumber).ElementAt(0).ProductImage.FileName)"
+                     style=padding:5px>
+            </dd>
+            <dt></dt>
+            <dd class="col-sm-12">
+                @foreach (var item in productImageMappings.OrderBy(pim => pim.ImageNumber))
+                {
+                    <a href="@(Url.Content(Constants.StaticProductImagePath) + item.ProductImage.FileName)">
+                        <img src="@(Url.Content(Constants.StaticProductThumbnailPath) + item.ProductImage.FileName)"
+                             style=padding:5px>
+                    </a>
+                }
+            </dd>
+            <dt></dt>
+
+        }
+        <!--<img src="~/StaticFiles/ProductImages/abc.jpg" alt="ASP.NET" class="img-responsive" />-->
+        <dt class="col-sm-1">
+            Quantity:
+        </dt>
+        <dd class="col-sm-1">
+            @using (Html.BeginForm("AddToBasket", "Basket"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.ID)
+                @Html.DropDownList("quantity", Enumerable.Range(1, 10).Select(i => new SelectListItem
+                {
+                        Text = i.ToString(),
+                        Value = i.ToString()
+                }))
+                <input type="submit" class="btn btn-primary btn-xs" value="Add to Basket">
+            }
+        </dd>
+
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
