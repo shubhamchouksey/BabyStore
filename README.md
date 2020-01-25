@@ -1,8 +1,8 @@
 # StoreBaby
 
-** This is Ecommerce Web Application fully functional in Microsoft dotnet MVC core 2.2.0 with SQL Server 13.0.4001 **
+## This is Ecommerce Web Application fully functional in Microsoft dotnet MVC core 2.2.0 with SQL Server 13.0.4001 
 
-Following are the basic Functionality this project have:
+### Following are the basic Functionality this project have:
 
 1] Authorization and Authentication set for Both Admin Users, Customer centric Users and Both Admin as a Customer User.
 2] Admin User can add Categories, Products, Add an Image for product and CRUD operations on Categories,Products,Images.
